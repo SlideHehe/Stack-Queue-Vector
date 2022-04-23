@@ -81,17 +81,18 @@ void stack_time_comparison() {
 //////////////////////////////////////////////////////////////////////////////////////////
 
 void written_queue_test() {
-    Queue<int> queue1;
+    Queue<int> queue1(3);
     queue1.push(4);
     queue1.push(2);
     queue1.push(3);
     queue1.print();
+    queue1.resize(5);
     queue1.push(6);
     queue1.push(5);
     queue1.print();
     if (queue1.isMount()) cout << "Queue is mount" << endl;
     else cout << "Queue is not mount" << endl;
-    Queue<int> queue2;
+    Queue<int> queue2(5);
     queue2.push(1);
     queue2.push(2);
     queue2.push(3);
@@ -104,9 +105,10 @@ void written_queue_test() {
     if (queue1 > queue2) cout << "Gt\n";
     else if (queue1 == queue2) cout << "equal\n";
     else cout << "LT\n";
-    cout << queue1.peek() << endl;
+    cout << "Queue1 peek: " << queue1.peek() << endl;
     cout << queue1.pop() << endl;
     cout << queue1.pop() << endl;
+    cout << "Queue1 peek: " << queue1.peek() << endl;
     cout << queue1.pop() << endl;
     cout << queue1.pop() << endl;
     cout << queue1.pop() << endl;
@@ -114,33 +116,45 @@ void written_queue_test() {
 }
 
 void queue_time_comparison() {
+        cout << "--------------------" << endl << "Time comparison test between STL queue and written queue:" << endl;
+    auto written_queue_start = std::chrono::high_resolution_clock::now();
+    Queue<int> written_queue(200000);
+    for (int i = 0; i < 200000; i++)
+        written_queue.push(i); 
+    cout << written_queue.count() << endl;
+    cout << written_queue.peek() << endl;
+    for (int i = 0; i < 100000; i++)
+        written_queue.pop();
+    written_queue.count();
+    cout << written_queue.peek() << endl;
+    for (int i = 0; i < 40000; i++)
+        written_queue.pop();
+    cout << written_queue.count() << endl;
+    cout << written_queue.peek() << endl;
+    auto written_queue_end = std::chrono::high_resolution_clock::now();
+    auto written_queue_res = std::chrono::duration_cast<ms>(written_queue_end - written_queue_start).count();
+    cout << "Written queue performance time: " << written_queue_res << " ms" << endl << endl;
 
+    auto stl_queue_start = std::chrono::high_resolution_clock::now();
+    queue<int> stl_queue;
+    for (int i = 0; i < 200000; i++)
+        stl_queue.push(i);
+    cout << stl_queue.size() << endl;
+    cout << stl_queue.front() << endl;
+    for (int i = 0; i < 100000; i++)
+        stl_queue.pop();
+    cout << stl_queue.size() << endl;
+    cout << stl_queue.front() << endl;
+    for (int i = 0; i < 40000; i++)
+        stl_queue.pop();
+    cout << stl_queue.size() << endl;
+    cout << stl_queue.front() << endl;
+    auto stl_queue_end = std::chrono::high_resolution_clock::now();
+    auto stl_queue_res = std::chrono::duration_cast<ms>(stl_queue_end - stl_queue_start).count();
+    cout << "STL queue performance time: " << stl_queue_res << " ms" << endl << "--------------------" << endl;
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////
-
-void written_vector_test() {
-    Vector<int> v1(3);
-    v1.push(2);  v1.push(234, 0); v1.push(22,1);
-    v1.print();
-    v1.pop(); v1.print();
-    cout << v1.at(2) << "\n" << v1.count() << " " << v1.peek()<<endl;
-    v1.resize(1);
-    v1.push(1);  v1.push(2); v1.push(3);
-    v1.print();
-    Vector<int> v2(4);
-    v2.push(1); v2.push(2); v2.push(3); v2.push(1);
-    v1.resize(4);
-    v1.push(1);  v1.push(2); v1.push(3);
-    v2.Swap(v1);
-    v1.print();
-    cout << (v1.isMount())<<" "<<(v2.isMount())<<" "<<(v1>=v2)<<endl;
-    Vector<float> vg(2000000);
-    for (int i = 0; i < 2000000; i++)
-        vg.push(i);
-    cout << vg.count() << " " << vg.at(10032)<<endl;
-    vg.pop(10032); cout<< vg.count() << " " << vg.at(10032)<<endl;
-}
+///////////////////////////////////////////////////////////////////////////////////
 
 void vector_time_comparison() {
     cout << "--------------------" << endl << "Time comparison test between STL vector and written vector:" << endl;
