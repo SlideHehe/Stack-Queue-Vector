@@ -124,17 +124,17 @@ void written_vector_test() {
     v1.push(2);  v1.push(234, 0); v1.push(22,1);
     v1.print();
     v1.pop(); v1.print();
-    cout << v1.at(2) << " " << v1.count() << " " << v1.peek()<<endl;
+    cout << v1.at(2) << "\n" << v1.count() << " " << v1.peek()<<endl;
     v1.resize(1);
-    v1.push(5);  v1.push(6); v1.push(7); v1.push(5);  v1.push(6); v1.push(7);
+    v1.push(1);  v1.push(2); v1.push(3);
     v1.print();
     Vector<int> v2(4);
     v2.push(1); v2.push(2); v2.push(3); v2.push(1);
     v1.resize(4);
-    v1.push(1); v1.push(2); v1.push(3);
+    v1.push(1);  v1.push(2); v1.push(3);
     v2.Swap(v1);
     v1.print();
-    cout << (v1.isMount())<<(v2.isMount())<<" "<<(v1>=v2)<<endl;
+    cout << (v1.isMount())<<" "<<(v2.isMount())<<" "<<(v1>=v2)<<endl;
     Vector<float> vg(2000000);
     for (int i = 0; i < 2000000; i++)
         vg.push(i);
@@ -143,6 +143,44 @@ void written_vector_test() {
 }
 
 void vector_time_comparison() {
+    cout << "--------------------" << endl << "Time comparison test between STL vector and written vector:" << endl;
+    cout << "--------------------" << endl << "Time comparison test between STL vector and written vector:" << endl;
+    auto written_vector_start = std::chrono::high_resolution_clock::now();
+    Vector<int> written_vector(2000000);
+    for (int i = 0; i < 2000000; i++)
+        written_vector.push(i);
+    cout << written_vector.count() << endl;
+    cout << written_vector.peek() << endl;
+    for (int i = 0; i < 1000000; i++)
+        written_vector.pop();
+    cout << written_vector.count() << endl;
+    cout << written_vector.peek() << endl;
+    for (int i = 0; i < 400000; i++)
+        written_vector.pop();
+    cout << written_vector.count() << endl;
+    cout << written_vector.peek() << endl;
+    cout << written_vector.at(5) << endl;
+    auto written_vector_end = std::chrono::high_resolution_clock::now();
+    auto written_vector_res = std::chrono::duration_cast<ms>(written_vector_end - written_vector_start).count();
+    cout << "Written vector performance time: " << written_vector_res << " ms" << endl << endl;
 
+    auto stl_vector_start = std::chrono::high_resolution_clock::now();
+    vector<int> stl_vector;
+    for (int i = 0; i < 2000000; i++)
+        stl_vector.push_back(i);
+    cout << stl_vector.size() << endl;
+    cout << stl_vector.back() << endl;
+    for (int i = 0; i < 1000000; i++)
+        stl_vector.pop_back();
+    cout << stl_vector.size() << endl;
+    cout << stl_vector.back() << endl;
+    for (int i = 0; i < 400000; i++)
+        stl_vector.pop_back();
+    cout << stl_vector.size() << endl;
+    cout << stl_vector.back() << endl;
+    cout << stl_vector.at(5) << endl;
+    auto stl_vector_end = std::chrono::high_resolution_clock::now();
+    auto stl_vector_res = std::chrono::duration_cast<ms>(stl_vector_end - stl_vector_start).count();
+    cout << "STL vector performance time: " << stl_vector_res << " ms" << endl << "--------------------" << endl;
 }
 
